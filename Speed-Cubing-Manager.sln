@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Speed-Cubing-Manager", "Speed-Cubing-Manager\Speed-Cubing-Manager.vcxproj", "{E131F5ED-004E-482C-80AC-37A0A5F198A5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Speed-Cubing-Manager", "Speed-Cubing-Manager\Speed-Cubing-Manager.vcxproj", "{58E2A45E-57FB-407B-84DE-8AA65186E32D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E131F5ED-004E-482C-80AC-37A0A5F198A5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E131F5ED-004E-482C-80AC-37A0A5F198A5}.Debug|Win32.Build.0 = Debug|Win32
-		{E131F5ED-004E-482C-80AC-37A0A5F198A5}.Release|Win32.ActiveCfg = Release|Win32
-		{E131F5ED-004E-482C-80AC-37A0A5F198A5}.Release|Win32.Build.0 = Release|Win32
+		{58E2A45E-57FB-407B-84DE-8AA65186E32D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{58E2A45E-57FB-407B-84DE-8AA65186E32D}.Debug|Win32.Build.0 = Debug|Win32
+		{58E2A45E-57FB-407B-84DE-8AA65186E32D}.Release|Win32.ActiveCfg = Release|Win32
+		{58E2A45E-57FB-407B-84DE-8AA65186E32D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
