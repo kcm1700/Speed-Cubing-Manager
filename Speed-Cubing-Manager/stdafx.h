@@ -62,3 +62,8 @@
 #ifdef max
 #undef max
 #endif
+
+#include <InitGuid.h>
+#include <d3d9.h>
+#include <d3dx9.h>
+#include <dxdiag.h>
