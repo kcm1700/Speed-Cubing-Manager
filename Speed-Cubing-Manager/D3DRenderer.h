@@ -10,5 +10,6 @@ public:
 private:
 	CD3DRenderer(void);
 	LPDIRECT3D9EX m_pD3D9ex;
+	LPDIRECT3DDEVICE9EX m_pD3DDevice9;
 };
 #endif
