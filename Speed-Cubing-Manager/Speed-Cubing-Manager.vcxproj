@@ -106,7 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D3DRenderer.h" />
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="hres_error.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Speed-Cubing-Manager.h" />
     <ClInclude Include="Speed-Cubing-ManagerDlg.h" />
     <ClInclude Include="stdafx.h" />
@@ -114,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DRenderer.cpp" />
+    <ClCompile Include="hres_error.cpp" />
     <ClCompile Include="Speed-Cubing-Manager.cpp" />
     <ClCompile Include="Speed-Cubing-ManagerDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -34,6 +34,7 @@ protected:
 
 public:
 	CButton m_buttonD3D;
+//	afx_msg void OnNMCustomdrawButtonD3d(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 #endif

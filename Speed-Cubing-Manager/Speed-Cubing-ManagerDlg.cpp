@@ -1,10 +1,12 @@
 #include "stdafx.h"
-#include "Speed-Cubing-Manager.h"
-#include "Speed-Cubing-ManagerDlg.h"
-#include "afxdialogex.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <new>
+#include <stdexcept>
+#include "Speed-Cubing-Manager.h"
+#include "Speed-Cubing-ManagerDlg.h"
+#include "afxdialogex.h"
+#include "hres_error.h"
 
 /*#ifdef _DEBUG
 #define new DEBUG_NEW
@@ -38,16 +40,16 @@ END_MESSAGE_MAP()
 
 
 CSpeedCubingManagerDlg::CSpeedCubingManagerDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CSpeedCubingManagerDlg::IDD, pParent)
+	: CDialogEx(CSpeedCubingManagerDlg::IDD, pParent), m_renderer(nullptr)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 CSpeedCubingManagerDlg::~CSpeedCubingManagerDlg()
 {
-	if (m_renderer != NULL) {
+	if (m_renderer != nullptr) {
 		delete m_renderer;
-		m_renderer = NULL;
+		m_renderer = nullptr;
 	}
 }
 
@@ -61,6 +63,7 @@ BEGIN_MESSAGE_MAP(CSpeedCubingManagerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+//	ON_NOTIFY(NM_CUSTOMDRAW, IDC_BUTTON_D3D, &CSpeedCubingManagerDlg::OnNMCustomdrawButtonD3d)
 END_MESSAGE_MAP()
 
 
@@ -96,7 +99,24 @@ BOOL CSpeedCubingManagerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// D3D device 초기화
-	m_renderer = new (std::nothrow) CD3DRenderer(m_buttonD3D.m_hWnd);
+	try
+	{
+		m_renderer = new (std::nothrow) CD3DRenderer(m_buttonD3D.m_hWnd);
+	}
+	catch(hres_error &er)
+	{
+		char buff[256];
+		sprintf(buff,"%s\nError Code: 0x%x", er.what(), er.GetErrorCode());
+		MessageBoxA(NULL, buff, "CD3DRenderer creation failed", MB_OK);
+	}
+	catch(std::runtime_error &er)
+	{
+		MessageBoxA(NULL, er.what(), "CD3DRenderer creation failed", MB_OK);
+	}
+	catch(std::exception &er)
+	{
+		MessageBoxA(NULL, er.what(), "CD3DRenderer creation failed", MB_OK);
+	}
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
 
@@ -148,3 +168,4 @@ HCURSOR CSpeedCubingManagerDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
 }
+

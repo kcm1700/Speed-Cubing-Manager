@@ -6,11 +6,6 @@
 #include "Speed-Cubing-Manager.h"
 #include "Speed-Cubing-ManagerDlg.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
-
 // CSpeedCubingManagerApp
 
 BEGIN_MESSAGE_MAP(CSpeedCubingManagerApp, CWinApp)
@@ -70,19 +65,13 @@ BOOL CSpeedCubingManagerApp::InitInstance()
 	CSpeedCubingManagerDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO: 여기에 [확인]을 클릭하여 대화 상자가 없어질 때 처리할
-		//  코드를 배치합니다.
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO: 여기에 [취소]를 클릭하여 대화 상자가 없어질 때 처리할
-		//  코드를 배치합니다.
+
+	if(nResponse == IDOK) {
+		//TODO:
 	}
 
 	// 위에서 만든 셸 관리자를 삭제합니다.
-	if (pShellManager != NULL)
+	if (pShellManager != nullptr)
 	{
 		delete pShellManager;
 	}
