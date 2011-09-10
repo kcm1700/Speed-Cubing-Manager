@@ -1,31 +1,27 @@
 #include "StdAfx.h"
 #include "D3DRenderer.h"
 
-static HRESULT CheckD3D9Ex() {
-	HMODULE hlib = NULL;
-	hlib = LoadLibrary(L"d3d9.dll");
-	if(hlib == NULL) return E_FAIL;
-	auto p = GetProcAddress(hlib, "Direct3DCreate9Ex");
-	FreeLibrary(hlib);
-	if(p == NULL) return E_FAIL;
-	return S_OK;
-}
 
 CD3DRenderer::CD3DRenderer(HWND hWnd)
 {
 	HRESULT hr;
+	HMODULE hlib = LoadLibrary(TEXT("d3d9.dll"));
+	if(hlib == nullptr) return;
 
-	if ( SUCCEEDED( CheckD3D9Ex() ) )
+	HRESULT (*pDirect3DCreate9Ex)(UINT, IDirect3D9Ex **) = 
+		reinterpret_cast<HRESULT (*)(UINT, IDirect3D9Ex **)>(GetProcAddress(hlib, "Direct3DCreate9Ex"));
+
+	if(pDirect3DCreate9Ex != nullptr)
 	{
-		hr = Direct3DCreate9Ex(D3D_SDK_VERSION, &m_pD3D9ex);
-		if ( FAILED(hr) ) return;
-		hr = m_pD3D9ex->QueryInterface(IID_IDirect3D9, (void **)&m_pD3D9);
-		if ( FAILED(hr) ) return;
+		hr = (*pDirect3DCreate9Ex)(D3D_SDK_VERSION, &m_pD3D9ex);
+		if( FAILED(hr) ) return;
+		hr = m_pD3D9ex->QueryInterface(IID_IDirect3D9, reinterpret_cast<void **>(&m_pD3D9));
+		if( FAILED(hr) ) return;
 	}
 	else
 	{
 		m_pD3D9 = Direct3DCreate9(D3D_SDK_VERSION);
-		if ( m_pD3D9 == NULL ) return;
+		if(m_pD3D9 == nullptr) return;
 	}
 
 	D3DDEVTYPE devType = D3DDEVTYPE_HAL;
@@ -57,7 +53,6 @@ CD3DRenderer::CD3DRenderer(HWND hWnd)
 CD3DRenderer::~CD3DRenderer(void)
 {
 	SAFE_RELEASE(m_pD3DDevice9);
-	SAFE_RELEASE(m_pD3DDevice9ex);
 	SAFE_RELEASE(m_pD3D9);
 	SAFE_RELEASE(m_pD3D9ex);
 }
