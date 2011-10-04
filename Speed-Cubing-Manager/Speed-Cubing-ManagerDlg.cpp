@@ -106,7 +106,7 @@ BOOL CSpeedCubingManagerDlg::OnInitDialog()
 	catch(hres_error &er)
 	{
 		char buff[256];
-		sprintf(buff,"%s\nError Code: 0x%x", er.what(), er.GetErrorCode());
+		sprintf_s<_countof(buff)>(buff,"%s\nError Code: 0x%x", er.what(), er.GetErrorCode());
 		MessageBoxA(NULL, buff, "CD3DRenderer creation failed", MB_OK);
 	}
 	catch(std::runtime_error &er)
