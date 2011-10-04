@@ -14,8 +14,8 @@ CD3DRenderer::CD3DRenderer(HWND hWnd) : m_pD3D9(nullptr), m_pD3D9ex(nullptr), m_
 		throw std::runtime_error("d3d9.dll loadlibrary error");
 	}
 
-	HRESULT (*pDirect3DCreate9Ex)(UINT, IDirect3D9Ex **) = 
-		reinterpret_cast<HRESULT (*)(UINT, IDirect3D9Ex **)>(::GetProcAddress(hlib, "Direct3DCreate9Ex"));
+	HRESULT (WINAPI *pDirect3DCreate9Ex)(UINT, IDirect3D9Ex **) = 
+		reinterpret_cast<HRESULT (WINAPI *)(UINT, IDirect3D9Ex **)>(::GetProcAddress(hlib, "Direct3DCreate9Ex"));
 
 	if(pDirect3DCreate9Ex != nullptr)
 	{
