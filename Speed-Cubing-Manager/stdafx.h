@@ -67,3 +67,11 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <dxdiag.h>
+
+class Uncopyable {
+protected:
+	Uncopyable() {}
+private:
+	Uncopyable(const Uncopyable&);
+	Uncopyable& operator=(const Uncopyable&);
+};

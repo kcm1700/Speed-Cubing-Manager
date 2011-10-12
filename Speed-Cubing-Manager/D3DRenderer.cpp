@@ -66,7 +66,7 @@ CD3DRenderer::CD3DRenderer(HWND hWnd) : m_pD3D9(nullptr), m_pD3D9ex(nullptr), m_
 		throw hres_error("CreateDevice Error", hr);
 	}
 
-	m_hStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	m_hStopEvent = ::CreateEvent(NULL, TRUE, FALSE, NULL);
 	if(m_hStopEvent == nullptr) {
 		this->~CD3DRenderer();
 		throw std::runtime_error("CreateEvent failed");
@@ -77,6 +77,9 @@ CD3DRenderer::CD3DRenderer(HWND hWnd) : m_pD3D9(nullptr), m_pD3D9ex(nullptr), m_
 		this->~CD3DRenderer();
 		throw std::runtime_error("_beginthreadex failed");
 	}
+
+	m_fpsManage.SetTargetFPS(60);
+	m_UIState = UIState::PLAY;
 }
 
 #define SAFE_RELEASE(pObj) \
@@ -89,17 +92,17 @@ CD3DRenderer::~CD3DRenderer(void)
 {
 	if(m_hThread != nullptr)
 	{
-		SetEvent(m_hStopEvent);
-		if(WaitForSingleObject(m_hThread, 5000) != WAIT_TIMEOUT) {
-			TerminateThread(m_hThread, 0x1);
+		::SetEvent(m_hStopEvent);
+		if(::WaitForSingleObject(m_hThread, 5000) != WAIT_TIMEOUT) {
+			::TerminateThread(m_hThread, 0x1);
 		}
-		CloseHandle(m_hThread);
+		::CloseHandle(m_hThread);
 		m_hThread = nullptr;
 	}
 
 	if(m_hStopEvent != nullptr)
 	{
-		CloseHandle(m_hStopEvent);
+		::CloseHandle(m_hStopEvent);
 		m_hStopEvent = nullptr;
 	}
 
@@ -117,23 +120,52 @@ unsigned int CD3DRenderer::threadProc(void *pParam)
 
 void CD3DRenderer::WorkLoop()
 {
-	while(::WaitForSingleObject(m_hStopEvent, 0) == WAIT_TIMEOUT)
+	m_fpsManage.InitTime();
+	while(::WaitForSingleObject(m_hStopEvent, m_fpsManage.WaitTime()) == WAIT_TIMEOUT)
 	{
-		HRESULT hr;
-		hr = m_pD3DDevice9->Clear(0,nullptr,D3DCLEAR_TARGET,0x0,0,0);
-		if(SUCCEEDED(m_pD3DDevice9->BeginScene()))
+		switch(m_UIState)
 		{
-			DrawCube();
-			m_pD3DDevice9->EndScene();
+		case UIState::MENU:
+			ProcessMenu();
+			break;
+		case UIState::PLAY:
+			ProcessPlay();
+			break;
+		case UIState::OPTION:
+			ProcessOption();
+			break;
+		default:
+			break;
 		}
-		hr = m_pD3DDevice9->Present(nullptr, nullptr, nullptr, nullptr);
-		Sleep(33);
 	}
+}
+
+void CD3DRenderer::ProcessMenu()
+{
+	throw std::exception("The method or operation is not implemented.");
+}
+
+void CD3DRenderer::ProcessPlay()
+{
+	HRESULT hr;
+	hr = m_pD3DDevice9->Clear(0,nullptr,D3DCLEAR_TARGET,0x0,0,0);
+	if(SUCCEEDED(m_pD3DDevice9->BeginScene()))
+	{
+		DrawCube();
+		m_pD3DDevice9->EndScene();
+	}
+	hr = m_pD3DDevice9->Present(nullptr, nullptr, nullptr, nullptr);
+}
+
+void CD3DRenderer::ProcessOption()
+{
+	throw std::exception("The method or operation is not implemented.");
 }
 
 void CD3DRenderer::DrawCube()
 {
 	// DRAW CUBE HERE
 }
+
 
 #undef SAFE_RELEASE

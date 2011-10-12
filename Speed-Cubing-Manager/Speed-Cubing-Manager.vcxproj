@@ -105,7 +105,9 @@
     <None Include="res\SpeedCubingManager.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="consts.h" />
     <ClInclude Include="D3DRenderer.h" />
+    <ClInclude Include="FPSManage.h" />
     <ClInclude Include="hres_error.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Speed-Cubing-Manager.h" />
@@ -115,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D3DRenderer.cpp" />
+    <ClCompile Include="FPSManage.cpp" />
     <ClCompile Include="hres_error.cpp" />
     <ClCompile Include="Speed-Cubing-Manager.cpp" />
     <ClCompile Include="Speed-Cubing-ManagerDlg.cpp" />
