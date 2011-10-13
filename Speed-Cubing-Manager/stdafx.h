@@ -75,3 +75,11 @@ private:
 	Uncopyable(const Uncopyable&);
 	Uncopyable& operator=(const Uncopyable&);
 };
+
+template<typename Ty>
+static inline void SafeRelease(Ty *&toRelease)
+{
+	if(toRelease == nullptr) return;
+	toRelease->Release();
+	toRelease = nullptr;
+}

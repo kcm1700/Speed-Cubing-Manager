@@ -17,6 +17,8 @@ CD3DRenderer::CD3DRenderer(HWND hWnd) : m_pD3D9(nullptr), m_pD3D9ex(nullptr), m_
 	HRESULT (WINAPI *pDirect3DCreate9Ex)(UINT, IDirect3D9Ex **) = 
 		reinterpret_cast<HRESULT (WINAPI *)(UINT, IDirect3D9Ex **)>(::GetProcAddress(hlib, "Direct3DCreate9Ex"));
 
+	::FreeLibrary(hlib);
+
 	if(pDirect3DCreate9Ex != nullptr)
 	{
 		hr = (*pDirect3DCreate9Ex)(D3D_SDK_VERSION, &m_pD3D9ex);
@@ -82,11 +84,6 @@ CD3DRenderer::CD3DRenderer(HWND hWnd) : m_pD3D9(nullptr), m_pD3D9ex(nullptr), m_
 	m_UIState = UIState::PLAY;
 }
 
-#define SAFE_RELEASE(pObj) \
-	if(pObj != nullptr) { \
-		pObj->Release(); \
-		pObj = nullptr; \
-	}
 
 CD3DRenderer::~CD3DRenderer(void)
 {
@@ -106,9 +103,9 @@ CD3DRenderer::~CD3DRenderer(void)
 		m_hStopEvent = nullptr;
 	}
 
-	SAFE_RELEASE(m_pD3DDevice9);
-	SAFE_RELEASE(m_pD3D9);
-	SAFE_RELEASE(m_pD3D9ex);
+	SafeRelease(m_pD3DDevice9);
+	SafeRelease(m_pD3D9);
+	SafeRelease(m_pD3D9ex);
 }
 
 unsigned int CD3DRenderer::threadProc(void *pParam)
