@@ -39,7 +39,7 @@ DWORD FPSManage::WaitTime()
 	double idealSleepLen = 1000.0/targetFPS - (now - m_lastFrameTime) + m_timeDiff;
 	DWORD sleepLen((DWORD)idealSleepLen);
 
-	if(sleepLen <= 0) {
+	if(idealSleepLen <= 0) {
 		m_timeDiff = 0;
 		m_lastFrameTime = now;
 		return 0;
